@@ -391,6 +391,7 @@ Resources:
         LaunchTemplateVersion: ~~/<ConfigSetName>/default-nodegroup/LaunchTemplateVersion~~
         WindowsVersion: ~~/<ConfigSetName>/windows-nodegroup/WindowsNodeVersion~~
         WindowsEdition: ~~/<ConfigSetName>/windows-nodegroup/WindowsNodeEdition~~
+        RestrictNodeIamRole: ~~/<ConfigSetName>/default-nodegroup/RestrictNodeIamRole~~
   WindowsSupportNodeGroupStack:
     Type: "AWS::CloudFormation::Stack"
     Condition: EnableWindows
@@ -416,6 +417,7 @@ Resources:
         EKSClusterName: !If [GenerateClusterName, !Ref GenerateName, !Ref EKSClusterName]
         NodeInstanceFamily: Standard
         NodeGroupType: Managed
+        RestrictNodeIamRole: ~~/<ConfigSetName>/default-nodegroup/RestrictNodeIamRole~~
   BastionSShToNodes:
     Condition: EnableBastion
     Type: "AWS::EC2::SecurityGroupIngress"
