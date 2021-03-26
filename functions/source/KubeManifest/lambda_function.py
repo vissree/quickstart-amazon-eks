@@ -104,6 +104,17 @@ def build_output(kube_response):
     return outp
 
 
+def is_sub_path(target_path, path):
+    if len(target_path) > len(path):
+        return False
+
+    for idx, key in enumerate(target_path):
+        if key != path[idx]:
+            return False
+
+    return True
+
+
 def traverse(obj, path=None, callback=None):
     if path is None:
         path = []
@@ -135,8 +146,11 @@ def traverse_modify(obj, target_path, action):
 
 
 def traverse_modify_all(obj, action):
+    annotations = ["metadata", "annotations"]
 
-    def transformer(_, value):
+    def transformer(path, value):
+        if is_sub_path(annotations, path):
+            return value
         return action(value)
     return traverse(obj, callback=transformer)
 
